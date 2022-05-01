@@ -47,5 +47,5 @@ if [[ -n $SELECTOR ]]; then
     scrapy crawl arg -a link="$URL" -a container="$SELECTOR" -a name="$NAME"
 else
     echo "Executing scrappy without selector"
-    scrapy crawl full -a link="$URL" -a name="$NAME"
+    scrapy crawl fullSplit -a link="$URL" -a name="$NAME"
 fi
