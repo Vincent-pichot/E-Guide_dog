@@ -23,6 +23,12 @@ class fullSplitSpider(scrapy.Spider):
 
     def start_requests(self):
         yield scrapy.Request(f'{self.link}', callback=self.parse)
+    
+    def removeComments(self, tab):
+        for line in tab:
+            for char in line:
+                print(char)
+        return tab
 
     def parse(self, response):
         page = response.url.split("/")[-2]
@@ -30,6 +36,11 @@ class fullSplitSpider(scrapy.Spider):
         # Création du fichier qui contient tout
         filename = f'{self.name}.html'
         with open(filename, 'wb') as f:
+            content = response.body.decode("utf-8")
+            tab = content.split("\n")
+            clean = self.removeComments(tab)
+            for line in clean:
+                print(line)
             f.write(response.body)
         self.log(f'Saved file {filename}')
 
