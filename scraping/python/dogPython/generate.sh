@@ -2,6 +2,7 @@
 
 BUFF=
 SELECTOR=
+FULL=0
 NAME="myelem"
 URL=$1
 shift
@@ -27,6 +28,11 @@ while [[ $# -gt 0 ]]; do
         shift
         shift
         ;;
+    -f|--full)
+        FULL=1
+        shift
+        shift
+        ;;
     *) #unknown
         BUFF+=$1
         shift
@@ -45,6 +51,9 @@ fi
 if [[ -n $SELECTOR ]]; then
     echo "Executing scrappy with selector"
     scrapy crawl arg -a link="$URL" -a container="$SELECTOR" -a name="$NAME"
+elif [[ $FULL == 1 ]]; then
+    echo "Executing scrappy to scrape the whole page"
+    scrapy crawl full -a link="$URL" -a name="$NAME"
 else
     echo "Executing scrappy without selector"
     scrapy crawl fullSplit -a link="$URL" -a name="$NAME"
