@@ -25,10 +25,25 @@ class fullSplitSpider(scrapy.Spider):
         yield scrapy.Request(f'{self.link}', callback=self.parse)
     
     def removeComments(self, tab):
+        cleanTab = []
+
         for line in tab:
-            for char in line:
-                print(char)
-        return tab
+            posStart = line.find('<!--')
+            posEnd = -1
+            ##print("start = " + str(posStart))
+            if posStart != -1:
+                # check if the comment is one line only
+                posEnd = line.find('-->')
+                ##print("end = " + str(posEnd))
+                if posEnd != -1:
+                    rep = line[posStart:posEnd + 3]
+                    ##print(rep)
+                    line = line.replace(rep, "")
+
+                # removes all the lines until the end of comment
+            cleanTab.append(line)
+            # no comment to remove
+        return cleanTab
 
     def parse(self, response):
         page = response.url.split("/")[-2]
@@ -39,9 +54,10 @@ class fullSplitSpider(scrapy.Spider):
             content = response.body.decode("utf-8")
             tab = content.split("\n")
             clean = self.removeComments(tab)
-            for line in clean:
-                print(line)
-            f.write(response.body)
+            #for line in clean:
+            #    print(line)
+            #f.write(response.body)
+            writeStrInFile(filename, clean)
         self.log(f'Saved file {filename}')
 
 
