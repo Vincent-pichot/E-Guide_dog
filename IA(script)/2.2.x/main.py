@@ -1,5 +1,5 @@
 import argparse
-from check_tag import *
+from check_balises import *
 
 
 def argument_parser():

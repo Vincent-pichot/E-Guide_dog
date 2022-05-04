@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+ <title>Portail d'authentification</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="Content-Script-Type" content="text/javascript" />
+ <meta http-equiv="cache-control" content="no-cache" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+ <link rel="stylesheet" type="text/css" href="/skins/eapv3/css/bootstrap.min.css" />
+<!-- <link rel="stylesheet" type="text/css" href="/skins/eapv3/css/bootstrap-theme.min.css" /> --> 
+ <link rel="stylesheet" type="text/css" href="/skins/eapv3/css/styles.min.css" />
+ <!-- 
+  <style>
+  html, body {
+    background: url("/skins/common/backgrounds/1280px-Cedar_Breaks_National_Monument_partially.jpg") no-repeat center fixed;
+    background-size: cover;
+  }
+  </style>
+
+ -->
+ <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+ <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+ <!--[if lt IE 9]>
+   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.1/respond.min.js"></script>
+ <![endif]-->
+ 
+  <!-- Load javascript common to all skins -->
+  <script type="text/javascript" src="/skins/common/js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="/skins/common/js/jquery-ui-1.10.3.custom.min.js"></script>
+  <script type="text/javascript" src="/skins/common/js/jquery.base64.min.js"></script>
+  <script type="text/javascript" src="/skins/common/js/jquery.cookie.min.js"></script>
+ 
+ 
+ 
+ <script type="text/javascript">//<![CDATA[
+    var displaytab="";
+    var choicetab="";
+    var login="";
+    var newwindow="";
+    var antiframe="1";
+    var appslistorder="";
+    var scriptname="";
+    var activeTimer="";
+    var pingInterval=parseInt("");
+ //]]></script>
+
+
+  <script src="/skins/eapv3/js/skin.min.js"></script>
+  <script type="text/javascript" src="/skins/common/js/portal.min.js"></script>
+  <script src="/skins/eapv3/js/bootstrap.min.js"></script>
+     <!-- Custom <head> markups, like CSS, js, etc. -->
+<link type="text/css" rel="stylesheet" href="/skins/eapv3/css/cas_002.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="icon" href="/skins/eapv3/favicon.ico" type="image/x-icon" />
+<link type="text/css" rel="stylesheet" href="/skins/eapv3/css/cas.css" />
+<link type="text/css" rel="stylesheet" href="/skins/eapv3/css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="/skins/eapv3/css/responsive.css" />                
+<link type="text/css" rel="stylesheet" href="/skins/eapv3/css/orion-form.css" />
+<!-- <link type="text/css" rel="stylesheet" href="/skins/eapv3/css/orion-popover.css" /> -->
+<!-- <link type="text/css" rel="stylesheet" href="/skins/eapv3/css/orion-menu.css" /> -->
+<!-- <link type="text/css" rel="stylesheet" href="/skins/eapv3/css/orion-notifications.css" /> -->
+<link type="text/css" rel="stylesheet" href="/skins/eapv3/css/orion-header.css" />
+<!-- <link type="text/css" rel="stylesheet" href="/skins/eapv3/css/orion-loader.css" /> -->
+<!-- <link type="text/css" rel="stylesheet" href="/skins/eapv3/css/orion-footer.css" /> -->                
+<link type="text/css" rel="stylesheet" href="/skins/eapv3/css/eap.css" />
+
+</head>
+<body>
+    <!-- Custom HTML header -->
+<div class="o-header-fixed" role="banner">
+	<div class="o-header-picture">
+		<div class="o-header-fold o-div-inline">
+			<a href="http://agriculture.gouv.fr/" title="Site public du ministère" class="o-header-marianne">
+				<img src="/skins/eapv3//images/marianne2.png" alt="Marianne"/> 
+			</a>
+		</div>
+		<div class="o-header-unfold o-div-inline">
+			<div class="o-header-title">
+				<h1>
+				                Portail d'authentification<br/>
+						<strong>du ministère de l'agriculture et de l'alimentation</strong>
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="container-fluid">
+    <div class=" offset1">
+        <div class="row-fluid">
+
+            <div class="col-lg-10">
+                <div>
+                    <p class="message" style="font-size:18pt;text-align:left;font-family:Open-sans-Light,sans-serif;"><strong>Identifiez-vous</strong> pour accéder à vos applications.</p>
+	    <p id= "customtext"></p>
+<!--
+            <p class= "customtextFC1">Zone1 Configurable : Vous n'avez pas encore de compte ? <a>Inscrivez-vous</a></p>
+-->               </div>
+            </div>
+
+	</div>
+
+
+
+  
+  
+	
+	
+		<div id="msg" class="errors warning Veuillez vous authentifier">
+		<img class="errorImg" src="/skins/eapv3//images/error.gif" />
+		Veuillez vous authentifier</div>
+	
+	
+  
+ <div class="row-fluid formcont">
+      <!-- Forms -->
+      <!--    -->
+
+        <div id="1_AGRICOLL">
+
+          <form action="/cas/login%5C?service%5C=https://ecoagri.agriculture.gouv.fr/logics-usager/" method="post" class="login LDAP">
+            <!-- Hidden fields -->
+            <input type="hidden" name="lmhidden_cas_url_path" id="lmhidden_cas_url_path" value="L2Nhcy9sb2dpblw=" />
+            <input type="hidden" name="url" value="" />
+            <input type="hidden" name="service" value="" />
+            <input type="hidden" name="timezone" />
+            <input type="hidden" id="authKey" name="lmAuth" value="1_AGRICOLL" />
+            <input type="hidden" name="skin" value="eapv3" />
+
+
+	    
+              <div class="span3 col-lg-6 col-md-6 col-xs-12">
+        <div class="eap-unit">
+            <h2>
+                Par identifiant  
+            </h2>
+			
+                <div class="form-group">
+                    <div class="input-group">
+			<div class="input-group-prepend">
+				<div class="input-group-prepend">
+		    			<span class="input-group-text"> <i class="glyphicon glyphicon-user"></i> </span>
+		 		</div>
+			 	<input id="user" name="user" class="required" placeholder="Identifiant ou E-mel" tabindex="1" style="width: 210px;font-size:11pt;" role="textbox" aria-required="true" accesskey="i" value="" size="25" type="text" />
+			</div>
+                    </div>
+		</div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                                <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="glyphicon glyphicon-lock"></i> </span>
+                                </div>
+	                 	<input id="password" name="password" class="required" placeholder="Mot de passe" tabindex="2" style="width: 210px;font-size:11pt;" role="textbox" aria-required="true" accesskey="m" value="" size="25" autocomplete="off" type="password" />
+			</div>
+		    </div>
+                </div>
+		<div class="eapbutton">
+                <button type="submit" role="button" class="btn btn-block btn-success" accesskey="l" value="Connexion" tabindex="3"> <img src="/skins/eapv3//images/pouce.png" /> M'authentifier</button>
+		</div>
+        </div>
+	<br/>
+	<br/>
+    </div>
+
+            
+
+	    
+
+              
+
+               
+
+               
+
+
+
+
+	</form>
+        </div>
+      <!--    -->
+  
+<!--  <p class= "customtextFC2">
+	Zone2 configurable exemple : Vous avez perdu votre mot de passe ? 
+	<br/>
+	<a>Cliquez ici</a>
+	<br/><br/>
+  </p>
+-->  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<!-- 
+  
+  <div class="col-lg-10">
+              <p style="font-size:13pt;font-family:Open-sans,sans-serif;">Vous rencontrez des problèmes de connexion ? Contactez l'<a href="mailto:assistance.dsa@agriculture.gouv.fr">assistance.dsa@agriculture.gouv.fr</a> ou consultez l'Aide en ligne.</p>
+  </div>
+  
+-->
+
+</div>
+</div>
+  <!-- Custom HTML footer -->
+<div class="footer">
+	<ul>
+		<li class="p-1 login-access" data-toggle="modal" data-target="#login-access-content">Accessibilité</li>
+		<li class="p-1 login-help" data-toggle="modal" data-target="#login-help-content">Aide en ligne</li>
+		<li class="p-1 login-m-l" data-toggle="modal" data-target="#login-m-l-content">Mentions légales</li>
+		<li class="p-1 login-o-s" data-toggle="modal" data-target="#login-o-s-content">Offre de services</li>
+		<li class="p-1 login-homo" data-toggle="modal" data-target="#login-homologation-content">Homologation de sécurité</li>
+		<li class="p-1 login-cookies" data-toggle="modal" data-target="#login-cookies-content">Politique des cookies</li>	
+        </ul>
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-1">© 2020 :
+        <span style="text-align:left;text-transform:uppercase;">  ministère de l'agriculture et de l'alimentation- SG/SM/SDSI</span>
+  </div>
+  <!-- Copyright -->
+</div>
+<!-- Modal -->
+<div class="modal fade" id="login-access-content" tabindex="-1" role="dialog" aria-labelledby="Accessibilité contenu">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content p-5">
+      <h2 style="font-weight: bold; text-decoration: underline">Accessibilité</h2>
+      <p>
+        <b>Obligations légales</b><br/>
+        La loi de 2005 pour l’égalité des droits et des chances stipule que tous les services en ligne de l’État doivent être accessibles à tous.
+      </p>
+      <p>
+        <b>Positionnement du Ministère de l'agriculture et de l'alimentation dans le cadre du RGAA</b><br/>
+        Le Ministère de l'Agriculture et de l'Alimentation (MAA) s’engage à améliorer ses applications avec pour objectif d’obtenir le niveau 1 du label e-accessible.<br/>
+        Si vous rencontrez des difficultés dans l’utilisation du site, contactez le webmestre pour les lui signaler.
+      </p>
+	<p>
+		<b>Aides à la navigation sur le portail</b><br/>
+	<b>* Liens d’accès rapide</b><br/>
+	Vous pouvez utiliser la tabulation clavier, pour aller directement aux informations ou fonctionnalités souhaitées :
+        <ul class="retrait">
+	<li>	Aller au contenu : accès direct au contenu de la page</li>
+	<li>	Aller à la navigation : accès direct au menu du site</li>
+	<li>	Aller à la recherche : accès direct au moteur de recherche du site</li>
+	</ul>
+	<b>* Ajustement de la taille du texte</b><br/>
+	Vous pouvez agrandir la taille du texte du portail via les fonctionnalités de votre navigateur. Avec la majorité des navigateurs, utilisez l’une des combinaisons suivantes :
+ 	<ul class="retrait">
+		<li>Ctrl + molette de la souris</li>
+		<li>Ctrl+ pour augmenter la taille de la police et Ctrl- pour la diminuer</li>
+	</ul>
+	</p>
+      <p class="text-center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">
+          <span class="glyphicon glyphicon-log-out"></span>
+          Fermer
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="login-help-content" tabindex="-1" role="dialog" aria-labelledby="Aide contenu">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content p-5">
+      <h2 style="font-weight: bold; text-decoration: underline">Aide en ligne</h2>
+      <p>
+
+		    <b>Comment vous authentifier ?</b>
+                    <p>Entrez votre identifiant et votre mot de passe puis cliquez sur le bouton M'authentifier.<br/>
+                    Si vous possédez un certificat, vous pouvez également cliquer sur le bouton M'authentifier par certificat.<br/>
+                    Une fois authentifié(e), vous accéderez à vos applications.<br/></p>
+        <b>En cas de problèmes:</b><br/>
+        	<ul class="retrait">
+			<li>Contactez l'<a href="mailto:assistance.dsa@agriculture.gouv.fr">assistance.dsa@agriculture.gouv.fr</a></li>
+        		<li>Si aucune fenêtre de connexion n'apparait, l'url applicative n'est pas référencée auprès du Ministère de l'Agriculture et de l'Alimentation. Contactez votre support applicatif afin d'effectuer la déclaration auprès du Ministère.</li>
+		</ul>
+      </p>
+      <br/>
+      <p class="text-center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">
+          <span class="glyphicon glyphicon-log-out"></span>
+          Fermer
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="login-m-l-content" tabindex="-1" role="dialog" aria-labelledby="Mentions légales contenu">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content p-5">
+      <h2 style="font-weight: bold; text-decoration: underline"> Mentions légales</h2>
+
+			<h4 style="font-weight: bold; text-decoration: underline">1.
+					Information sur l'éditeur</h4>
+				<p><b>Directeur de la publication</b>: Chef du Service de la modernisation</p>
+				<h4 style="font-weight: bold; text-decoration: underline">2.
+					Protection et traitement des données à caractère personnel</h4>
+				<p><b>Finalité</b>: Le Ministère de l'Agriculture et de l'Alimentation (MAA) a mis
+					en place un portail d'authentification des utilisateurs, à destination de ses agents et de ses usagers externes 
+					afin qu'ils puissent accéder aux applications du MAA.</p>
+
+        <p><b>Dispositions légales</b>: <a href="https://eur-lex.europa.eu/legal-content/FR/TXT/PDF/?uri=CELEX:32016R0679&from=FR" target="_blank">Règlement (UE) 2016/679</a> 
+du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des personnes physiques à l'égard du traitement des données 
+à caractère personnel et à la libre circulation de ces données (RGPD).
+<a href="http://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000000886460&amp;fastPos=1&amp;fastReqId=1717735209&amp;categorieLien=cid&amp;oldAction=rechTexte" target="_blank">Loi n°78-17</a> 
+du 6 janvier 1978 modifiée relative à l'informatique, aux fichiers et aux libertés.
+      				</p>
+				<p>
+					<b>Le représentant du responsable du traitement</b> est le service de la modernisation du
+					secrétariat général du MAA. Son adresse postale est 78 rue de Varenne
+					75349 Paris SP 07 et son adresse électronique :
+					<a href="mailto:sdps.sm.sg@agriculture.gouv.fr">sdps.sm.sg@agriculture.gouv.fr</a>
+				</p>
+				<p>
+					Le délégué à la protection des données du MAA est joignable à
+					l'adresse électronique suivante :
+					<a href="mailto:dpo@agriculture.gouv.fr">dpo@agriculture.gouv.fr</a>
+				</p>
+
+<p><b>Base légale du traitement</b>: ce traitement repose sur l’intérêt légitime du MAA pour permettre l’accès des utilisateurs aux applications (article 6.1.f du RGPD).</p>
+<p><b>Catégories de données collectées</b> : données de connexion enregistrées pour assurer la sécurité et le bon fonctionnement des applications (identifiant/mot de passe/connexion).</p> 
+<p><b>Personnes concernées</b> : utilisateurs des applications du MAA.</p>
+<p><b>Destinataires</b> : aucune donnée n’est envoyée à un tiers.</p>
+<p><b>Durée de conservation</b> : La conservation des données de connexion est limitée au temps de la période d'emploi de la personne concernée au MAA (NS-046).</p>
+<p><b>Vos droits</b> : Vous disposez du droit de demander au responsable du traitement l’accès aux données vous concernant, de les rectifier ou de les faire effacer si vous n’avez plus d’intérêt à vous rendre sur ce portail. Pour exercer vos droits, contactez-nous ici <a href="mailto:sdps.sm.sg@agriculture.gouv.fr">sdps.sm.sg@agriculture.gouv.fr</a>.<br/>
+Si vous estimez que vos droits « Informatique et Libertés » ne sont pas respectés, vous avez également le droit d’introduire une réclamation en ligne à la Commission nationale de l’informatique et des libertés (CNIL).</p> 
+<p><b>Mesures de sécurité</b> : des protocoles sécurisés permettent la protection des données relatives aux utilisateurs.</p>
+<p><b>Propriété intellectuelle</b><br/>
+Les contenus présentés sur ces applications sont soumis à la législation relative au droit des informations publiques et sont couverts par le droit d'auteur. Toute réutilisation des vidéos, des photographies, des créations graphiques, des illustrations et des lexiques, ainsi que de l'ensemble des contenus éditoriaux produits pour l'animation éditoriale du site est conditionnée à l'accord de l'auteur. Conformément au droit public de la propriété intellectuelle et notamment selon l'article L122-5 du Code de la propriété intellectuelle, les "documents officiels" sont librement réutilisables :
+<ul class="retrait">
+    <li>les discours, les dossiers de presse et les communiqués,</li>
+    <li>les circulaires, directives et autres documents règlementaires,</li>
+    <li>les formulaires CERFA.</li>
+</ul>
+La réutilisation non commerciale, et notamment pédagogique, est autorisée à la condition de respecter l'intégrité des informations et de n'en altérer ni le sens, ni la portée, ni l'application et d'en préciser l'origine et la date de publication.<br/>
+Les informations ne peuvent être utilisées à des fins commerciales ou promotionnelles sans l'autorisation expresse et l'obtention d'une licence de réutilisation des informations publiques. Est considérée comme réutilisation à des fins commerciales ou promotionnelles, l'élaboration à partir des informations publiques, d'un produit ou d'un service destiné à être mis à disposition de tiers, à titre gratuit ou onéreux.<br/>
+L'utilisation des marques déposées utilisées sur ces applications sur tout autre support ou réseau est interdite.
+</p>
+
+
+      <p class="text-center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">
+          <span class="glyphicon glyphicon-log-out"></span>
+          Fermer
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="login-o-s-content" tabindex="-1" role="dialog" aria-labelledby="Offre de service contenu">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content p-5">
+      <h2 style="font-weight: bold; text-decoration: underline">Offre de services</h2>
+      <p>
+        <b>Fonctionnalités</b><br/>
+	   Le portail d'authentification du Ministère de l'Agriculture et de l'Alimentation (MAA), authentifie des utilisateurs agents de l'état ainsi que des utilisateurs externes afin qu'ils puissent accéder aux applications du MAA. Les autorisations d'accès ou habilitations applicatives sont gérées par chaque application du Ministère. Chaque type d'utilisateur doit s'enregistrer au préalable auprès du service d'identification spécifique.<br/><br/>
+        <b>Définitions</b><br/>
+	L'utilisateur est une personne physique désireuse de se connecter à une application du Ministère.<br/>
+	Une application désigne un site ou une plateforme internet mise en ligne par les services du Ministère.<br/>
+	Les <b>utilisateurs agents</b> s'identifient à travers l'annuaire ministériel.<br/>
+	Les <b>utilisateurs externes</b> peuvent s'identifier auprès du Ministère de l'Agriculture et de l'Alimentation en remplissant le formulaire d'inscription :  <a href="https://moncompte.agriculture.gouv.fr/individus/inscription.xhtml" target="_blank">MonCompte</a>
+	<br/>
+        <br/>
+	Des liens vers d'autres sites publics peuvent permettre à un utilisateur de s'authentifier.
+      </p>
+      <p class="text-center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">
+          <span class="glyphicon glyphicon-log-out"></span>
+          Fermer
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="login-homologation-content" tabindex="-1" role="dialog" aria-labelledby="Homologation contenu">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content p-5">
+      <h2 style="font-weight: bold; text-decoration: underline">Homologation de sécurité V4</h2>
+      <p>
+       Conformément au Référentiel général de sécurité publié par arrêté du 13 juin 2014, l'Autorité d'homologation, présidée par la Chef du Service de la Modernisation, a délivré le JJ/MM/2020 l'homologation ferme pour cinq ans de l'application EAP. L'homologation de sécurité atteste que le téléservice a identifié et atteint un niveau de risque de sécurité acceptable compte tenu de son besoin de sécurité.
+      </p>
+      <br/>
+      <br/>
+      <p class="text-center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">
+          <span class="glyphicon glyphicon-log-out"></span>
+          Fermer
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="login-cookies-content" tabindex="-1" role="dialog" aria-labelledby="Cookies contenu">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content p-5">
+      <h2 style="font-weight: bold; text-decoration: underline">Politique des cookies</h2>
+      <p>
+      Nous utilisons différents cookies sur le portail qui sont nécessaires à son fonctionnement et pour améliorer son interactivité.<br/>
+Ces cookies permettent au site de fonctionner de manière optimale. Vous ne pouvez pas vous y opposer et les supprimer en utilisant les paramètres de votre navigateur afin d’éviter que votre expérience utilisateur ne soit dégradée.
+</p>
+<table class="table">
+<tr><th>Nom du cookie</th><th>Finalité</th><th>Durée de conservation</tr>
+<tr><td>CASTGC</td><td>Cookie HTTPS de session</td><td>12 mois</td></tr> 
+</table>
+
+      <br/>
+      <br/>
+      <p class="text-center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">
+          <span class="glyphicon glyphicon-log-out"></span>
+          Fermer
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>
+
+
